@@ -1,3 +1,4 @@
+import { transform } from "next/dist/build/swc";
 import type { Config } from "tailwindcss";
 
 const config: Config = {
@@ -8,10 +9,20 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors:{
+        commonBackgroundColor:"#F9F27F"
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      },
+      keyframes:{
+        hopping:{
+          "0%":{},
+          "50%":{},
+          "100%":{}
+        }
       },
     },
   },
