@@ -39,7 +39,6 @@ export default function Lottery(){
                         <p className="p-2">ー応募方法と結果の告知についてー</p>
                         <p  onClick={LinkToSumou}><span className="text-blue-500 underline">ちびっ子相撲大会会場</span>にて、</p>
                         <p className="p-2">スタンプ3個〜応募可能！</p>
-                        <p className="p-2">2025年1月1日（元日）0時〜</p>
                         <p className="p-2">相撲大会当日、同会場にて当選者を発表！</p>
                         
                     </div>

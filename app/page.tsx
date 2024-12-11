@@ -91,29 +91,7 @@ export default function Home() {
               </div>
             </Link>
           </div>
-
-            {/* <Link href={`/awards/gorgeousAwards`}>
-              <div className="fesDetailLink underline text-blue-900 cursor-pointer">
-                <img src={"/image/gorgeousAward.png"} alt="" className="w-full h-auto" loading="lazy" />
-                <p>抽選で当たる</p>
-                <p>豪華景品</p>
-              </div>
-            </Link>
-          </div>
-          <div className="participationAwardsLink">
-            <Link href={`/awards/participationAwardPage`}>
-              <img src={"/image/participationAward.png"} alt="" className="w-full h-auto" loading="lazy" />
-              <div className="fesDetailLink underline text-blue-900 cursor-pointer">参加賞詳細</div>
-            </Link> */}
-          {/* </div> */}
         </div>
-         {/* 景品表示パート */}
-         {/* <div className="w-full h-48 border-4 border-red-500 text-center">
-          景品画像表示
-          <Link href={`/awards/participationAwardPage`}>
-            <div className="linkTo_award">参加賞について</div>
-          </Link>
-          </div> */}
         {/* ３つのフェスのパート */}
         <div className="title text-center mt-5 text-xl">【各お祭りの紹介】</div>
         <div className="3fesIntroContainer grid grid-cols-1 sm:grid-cols-3 text-center">
