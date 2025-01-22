@@ -10,6 +10,7 @@ const slides: string[] = [
     "/image/swiper/5.png"
 ];
 
+
 export default function Swiper() {
     const [currentSlideNum, setCurrentSlideNum] = useState(0);
     const router = useRouter();

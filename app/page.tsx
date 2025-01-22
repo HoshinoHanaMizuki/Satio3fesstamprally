@@ -60,6 +60,7 @@ const partnersLink : string[] = [
 
 
 
+
 export default function Home() {
 
   return(
@@ -73,6 +74,7 @@ export default function Home() {
         <div className="campaignBanner mb-5">
           <img src={bannerImage} alt="" className="w-full h-auto" loading="lazy" />
         </div>
+        <h4 className="p-2 text-center">2024年度の本イベントは終了しました。<br></br>たくさんのご参加ありがとうございました！</h4>
         {/* 説明テキスト */}
         {/* <div className="campaignExplainText w-screen mb-5 text-sm md:text-xl">
           {stamprallyIntroText.map((text,index)=>(
@@ -80,7 +82,13 @@ export default function Home() {
           ))}
         </div> */}
         {/* 参加方法 */}
-        <Swiper />
+        {/* <Swiper /> */}
+        <h3 className="text-center text-lg mー5">【お正月抽選会結果発表！！】</h3>
+        <div className="flex justify-center items-center">
+          <div className="relative w-full" style={{ paddingBottom: '56.25%' /* 16:9 aspect ratio */ }}>
+              <iframe className="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/PDESFd3DON8?si=Sd-gXFPtyLXXvHLx" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+          </div>
+        </div>
 
         <div className="title text-center mt-5 text-xl">【豪華景品】</div>
         <div className="awardsLinks flex justify-center mt-5 mb-5">

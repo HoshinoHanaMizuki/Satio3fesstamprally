@@ -1,11 +1,11 @@
+"use client";
 import FestivalDetail from "@/app/features/common/festivalDetailTemplate";
-import { FestivalContents, ImportantInfo, Sponsors } from "@/app/types/type";
+import { FestivalContents, ImportantInfo, Sponsors ,FesBaseInfo,FesContents} from "@/app/types/type";
+import { thisYear } from "@/app/features/common/commonValue";
+import { db } from "@/app/firebase";
+import { collection, getDocs } from "firebase/firestore";
+import { useEffect, useState } from "react";
 
-const introText:string[] = [
-    "宮崎県の地理上の中心に位置する三財地区では「三財へそ祭り」と称したお祭りを開催しています。",
-    "地元参加者が「へそ踊り」としてお腹に顔を絵描き、ユーモラスな踊りを披露します。",
-    "特産品の販売や伝統芸能も楽しめる地域密着のイベントです。"
-];
 const sponsors : Sponsors = {
     MainSponsor :  "三財地域づくり協議会",
     SubSponsor : "西都市・三財商工会",
@@ -108,11 +108,45 @@ const garallyPhotos:string[] = [
     ""
 ];
 
+let introText = "";
+let mapLink = "";
+
 const anotherInfos = [
     "【備 考】会場内にゴミ箱は設置されていません。",
     "【問合せ先】第１７回 三財へそ祭り実行委員会事務局（三財地域づくり協議会内）",
     "（電話）44-5831 （FAX）44-5831"];
 export default function Sanzai(){
+
+    const [sanzaiFesInfo, setSanzaiFesInfo] = useState<FesBaseInfo>();
+    const [sanzaiFesContents, setSanzaiFesContents] = useState<FesContents[]>();
+    useEffect(() => {
+        const fetchSanzaiFesData = async () => {
+        const getSanzaiFesInfo = await getDocs(collection(db,"sanzai_fes_info"));
+        const getSanzaiFesContents = await getDocs(collection(db,`sanzai_fes_contents${thisYear}`));
+        const sanzaiFesContentsData = getSanzaiFesContents.docs.map((doc) => doc.data()) as FesContents[];
+        const sanzaiFesInfoData = getSanzaiFesInfo.docs[0].data() as FesBaseInfo;
+        setSanzaiFesInfo(sanzaiFesInfoData);
+        setSanzaiFesContents(sanzaiFesContentsData);
+        }
+        fetchSanzaiFesData();
+    },[]);
+
+    if(sanzaiFesInfo !== undefined){
+        importantInfo.date = sanzaiFesInfo.date;
+        importantInfo.place = sanzaiFesInfo.place;
+        sponsors.MainSponsor = sanzaiFesInfo.management
+        sponsors.SubSponsor = sanzaiFesInfo.sponsor;
+    
+        introText = sanzaiFesInfo.intro_text;
+        mapLink = sanzaiFesInfo.place_map_link;
+    }
+    
+    if(sanzaiFesContents !== undefined){
+        fesContents.forEach((content,index) => {
+        // content.contentImage = sanzaiFesContents[index].image;
+        // content.contentTitle = sanzaiFesContents[index].name;
+        });
+    }
 
     return(
         <>
@@ -121,7 +155,7 @@ export default function Sanzai(){
                 festivalContents={fesContents}
                 importantInfo={importantInfo} 
                 garallyPhotos={garallyPhotos} 
-                mapLink="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1690.4547519435168!2d131.33916743889606!3d32.07169631635479!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3538adc800fff835%3A0x10d7ab0c435fc2d9!2z6KW_6YO95biC56uL5LiJ6LKh5bCP5a2m5qCh!5e0!3m2!1sja!2sjp!4v1729701984999!5m2!1sja!2sjp" 
+                mapLink={mapLink}
                 anotherInfos={anotherInfos}
             />
         </>

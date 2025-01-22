@@ -20,9 +20,8 @@ export default function FestivalDetail({introText,festivalContents,importantInfo
                 </div>
                 {/* 祭りの紹介テキスト */}
                 <div className="festivalIntroText text-center border-b-4 border-black mb-3">
-                    {introText.map((text,index) => (
-                        <div key={index} className="text-sm md:text-xl p-2">{text}</div>
-                    ))}
+                    <div className="text-sm md:text-xl p-2">{introText}</div>
+                
                 </div>
 
                 {/* 開催日程・主催・会場 */}

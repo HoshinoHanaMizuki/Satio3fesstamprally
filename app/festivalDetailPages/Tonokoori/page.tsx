@@ -1,26 +1,24 @@
 "use client";
 import FestivalDetail from "@/app/features/common/festivalDetailTemplate";
 import Navbar from "@/app/features/common/Navbar/SmartPhone";
-import { FestivalContents, ImportantInfo ,Sponsors} from "@/app/types/type";
+import { db } from "@/app/firebase";
+import { FestivalContents, ImportantInfo ,Sponsors ,FesBaseInfo,FesContents} from "@/app/types/type";
+import { collection, getDocs } from "firebase/firestore";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { thisYear } from "@/app/features/common/commonValue";
 
-
-const introText: string[] = [
-  "都於郡城址まつりは、「都小っ子まつり」と「高屋山上陵祭」から成る西都市の4大まつりの一つで、",
-  "地元の小学生による武者行列が見どころです。",
-  "様々なステージイベントやゲーム、せんぐまき等も行われます。",
-];
-const sponsors: Sponsors = {
-  MainSponsor: "都於郡城址まつり実行委員会",
-  SubSponsor: "西都市",
+let sponsors: Sponsors = {
+  MainSponsor: "",
+  SubSponsor: "",
   isSubSponsored: true,
 };
-const importantInfo: ImportantInfo = {
-  date: "2024-11-10",
+let importantInfo: ImportantInfo = {
+  date: "",
   Sponsors: sponsors,
-  place: "都於郡条跡",
+  place: "",
 };
+
 
 const fesContents: FestivalContents[] = [
   {
@@ -40,6 +38,8 @@ const fesContents: FestivalContents[] = [
     contentTitle: "せんぐまき",
   },
 ];
+let introText = "";
+let mapLink = "";
 const flyerImage = "/image/tonokooriFesContents/joushi2024.jpg";
 const garallyPhotos: string[] = [
   "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
@@ -50,8 +50,37 @@ const anotherInfos = [
 ];
 
 export default function Tonokoori() {
+  const [tonoFesInfo, setTonoFesInfo] = useState<FesBaseInfo>();
+  const [tonoFesContents, setTonoFesContents] = useState<FesContents[]>();
+  useEffect(() => {
+    const fetchTonoFesData = async () => {
+      const getTonoFesInfo = await getDocs(collection(db,"tono_fes_info"));
+      const getTonoFesContents = await getDocs(collection(db,`tono_fes_contents${thisYear}`));
+      const tonoFesContentsData = getTonoFesContents.docs.map((doc) => doc.data()) as FesContents[];
+      const tonoFesInfoData = getTonoFesInfo.docs[1].data() as FesBaseInfo;
+      setTonoFesInfo(tonoFesInfoData);
+      setTonoFesContents(tonoFesContentsData);
+    }
+    fetchTonoFesData();
+  },[]);
   const [showFlyerDialog, setShowFlyerDialog] = useState(false);
 
+  if(tonoFesInfo !== undefined){
+    importantInfo.date = tonoFesInfo.date;
+    importantInfo.place = tonoFesInfo.place;
+    sponsors.MainSponsor = tonoFesInfo.management
+    sponsors.SubSponsor = tonoFesInfo.sponsor;
+  
+    introText = tonoFesInfo.intro_text;
+    mapLink = tonoFesInfo.place_map_link;
+  }
+  
+  if(tonoFesContents !== undefined){
+    fesContents.forEach((content,index) => {
+      // content.contentImage = tonoFesContents[index].image;
+      content.contentTitle = tonoFesContents[index].name;
+    });
+  }
   return (
     <>
       <Navbar />
@@ -60,7 +89,7 @@ export default function Tonokoori() {
         festivalContents={fesContents}
         importantInfo={importantInfo}
         garallyPhotos={garallyPhotos}
-        mapLink="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3381.309709327911!2d131.3720668762382!3d32.06087102023835!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3538af3498b3b48b%3A0xe15bb688dff5f552!2z6YO95pa86YOh5Z-OIOacrOS4uOi3oQ!5e0!3m2!1sja!2sjp!4v1729702532910!5m2!1sja!2sjp"
+        mapLink={mapLink}
         anotherInfos={anotherInfos}
       />
 
