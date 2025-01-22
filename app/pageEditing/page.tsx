@@ -117,11 +117,11 @@ export default function PageEditing() {
             const getSponsors = await getDocs(collection(db,"sponsors"));
             const getSubmitResult = await getDocs(collection(db,"submit_resultPage"));
             const getSanzaiFesInfo = await getDocs(collection(db,"sanzai_fes_info"));
-            const getSanzaiFesContents = await getDocs(collection(db,`sanzai_fes_contents${thisYear+1}`));
+            const getSanzaiFesContents = await getDocs(collection(db,`sanzai_fes_contents${thisYear}`));
             const getTonoFesInfo = await getDocs(collection(db,"tono_fes_info"));
-            const getTonoFesContents = await getDocs(collection(db,`tono_fes_contents${thisYear+1}`));
+            const getTonoFesContents = await getDocs(collection(db,`tono_fes_contents${thisYear}`));
             const getMinouFesInfo = await getDocs(collection(db,"minou_fes_info"));
-            const getMinouFesContents = await getDocs(collection(db,`minou_fes_contents${thisYear+1}`));
+            const getMinouFesContents = await getDocs(collection(db,`minou_fes_contents${thisYear}`));
             
             // データの格納とセット            
             const sponsorsData = getSponsors.docs.map((doc) => ({
@@ -209,16 +209,16 @@ export default function PageEditing() {
             sponsor:editSanzaiFesInfo?.sponsor || currentSanzaiFesInfo?.sponsor
         };
     
-        await updateDoc(doc(db,"sanzai_fes_info",`heso_fes_info${thisYear+1}`),updateSanzaiFesInfo);
+        await updateDoc(doc(db,"sanzai_fes_info",`heso_fes_info${thisYear}`),updateSanzaiFesInfo);
         if(addSanzaiFesContents ){
-            await addDoc(collection(db,`sanzai_fes_contents${thisYear+1}`),addSanzaiFesContents);
+            await addDoc(collection(db,`sanzai_fes_contents${thisYear}`),addSanzaiFesContents);
         }
-        await deleteDoc(doc(db,`sanzai_fes_contents${thisYear+1}`,deleteSanzaiFesContents));
+        await deleteDoc(doc(db,`sanzai_fes_contents${thisYear}`,deleteSanzaiFesContents));
         const updateSanzaiFesContents = {
             name:editSanzaiFesContents?.name || currentSanzaiFesContents?.find((content) => content.id === editSanzaiFesContentTarget)?.name
         }
         if (editSanzaiFesContentTarget && editSanzaiFesContentTarget !== "No Change") {
-            await updateDoc(doc(db,`sanzai_fes_contents${thisYear+1}`,editSanzaiFesContentTarget),{name:updateSanzaiFesContents?.name});
+            await updateDoc(doc(db,`sanzai_fes_contents${thisYear}`,editSanzaiFesContentTarget),{name:updateSanzaiFesContents?.name});
         }
 
 
@@ -231,16 +231,16 @@ export default function PageEditing() {
             place_map_link:editTonoFesInfo?.place_map_link || currentTonoFesInfo?.place_map_link,
             sponsor:editTonoFesInfo?.sponsor || currentTonoFesInfo?.sponsor
         };
-        await updateDoc(doc(db,"tono_fes_info",`joushi_fes_info${thisYear+1}`),updatedTonoFesInfo);
+        await updateDoc(doc(db,"tono_fes_info",`joushi_fes_info${thisYear}`),updatedTonoFesInfo);
         if(addTonoFesContents){
-            await addDoc(collection(db,`tono_fes_contents${thisYear+1}`),addTonoFesContents);
+            await addDoc(collection(db,`tono_fes_contents${thisYear}`),addTonoFesContents);
         }
-        await deleteDoc(doc(db,`tono_fes_contents${thisYear+1}`,deleteTonoFesContents));
+        await deleteDoc(doc(db,`tono_fes_contents${thisYear}`,deleteTonoFesContents));
         const updateTonoFesContents = {
             name:editTonoFesContents?.name || currentTonoFesContents?.find((content) => content.id === editTonoFesContentTarget)?.name
         }
         if (editTonoFesContentTarget && editTonoFesContentTarget !== "No Change") {
-            await updateDoc(doc(db,`tono_fes_contents${thisYear+1}`,editTonoFesContentTarget),{name:updateTonoFesContents?.name});
+            await updateDoc(doc(db,`tono_fes_contents${thisYear}`,editTonoFesContentTarget),{name:updateTonoFesContents?.name});
         }
         
         //相撲大会情報
@@ -252,16 +252,16 @@ export default function PageEditing() {
             place_map_link:editMinouFesInfo?.place_map_link || currentMinouFesInfo?.place_map_link,
             sponsor:editMinouFesInfo?.sponsor || currentMinouFesInfo?.sponsor
         };
-        await updateDoc(doc(db,"minou_fes_info",`chibi_fes_info${thisYear+1}`),updateMinouFesInfo);
+        await updateDoc(doc(db,"minou_fes_info",`chibi_fes_info${thisYear}`),updateMinouFesInfo);
         if(addMinouFesContents){
-            await addDoc(collection(db,`minou_fes_contents${thisYear+1}`),addMinouFesContents);
+            await addDoc(collection(db,`minou_fes_contents${thisYear}`),addMinouFesContents);
         }
-        await deleteDoc(doc(db,`minou_fes_contents${thisYear+1}`,deleteMinouFesContents));
+        await deleteDoc(doc(db,`minou_fes_contents${thisYear}`,deleteMinouFesContents));
         const updateMinouFesContents = {
             name:editMinouFesContents?.name || currentMinouFesContents?.find((content) => content.id === editMinouFesContentTarget)?.name
         };
         if (editMinouFesContentTarget && editMinouFesContentTarget !== "No Change") {
-            await updateDoc(doc(db,`minou_fes_contents${thisYear+1}`,editMinouFesContentTarget),{name:updateMinouFesContents?.name});
+            await updateDoc(doc(db,`minou_fes_contents${thisYear}`,editMinouFesContentTarget),{name:updateMinouFesContents?.name});
         }
 
         closeDialog();
