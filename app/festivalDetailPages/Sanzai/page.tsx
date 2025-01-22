@@ -1,90 +1,21 @@
 "use client";
 import FestivalDetail from "@/app/features/common/festivalDetailTemplate";
-import { FestivalContents, ImportantInfo, Sponsors ,FesBaseInfo,FesContents} from "@/app/types/type";
+import { ImportantInfo, Sponsors ,FesBaseInfo,FesContents} from "@/app/types/type";
 import { thisYear } from "@/app/features/common/commonValue";
 import { db } from "@/app/firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
 const sponsors : Sponsors = {
-    MainSponsor :  "三財地域づくり協議会",
-    SubSponsor : "西都市・三財商工会",
+    MainSponsor :  "",
+    SubSponsor : "",
     isSubSponsored : true
 };
 const importantInfo:ImportantInfo = {
-    date : "2024-10-27（午前9時〜午後3時）",
-    Sponsors : sponsors,
-    place : "三財小中学校グラウンド（雨天時：同体育館）"
+    date : "",
+    sponsors : sponsors,
+    place : ""
 };
-
-
-const fesContents:FestivalContents[] = [
-    {
-        contentImage : "/image/sanzaiFesContents/hesoDance.jpg",
-        contentTitle : "へそ踊り",
-    },
-    {
-        contentImage : "/image/sanzaiFesContents/hesoZumou.jpg",
-        contentTitle : "へそ相撲",
-    },
-    {
-        contentImage : "/image/sanzaiFesContents/stamp_rally.png",
-        contentTitle : "スタンプラリー",
-    },
-    {
-        contentImage : "/image/sanzaiFesContents/tyuusen.png",
-        contentTitle : "お楽しみ抽選会",
-    },
-    {
-        contentImage : "/image/sanzaiFesContents/fish_tsukamidori.png",
-        contentTitle : "アユつかみ取り",
-    },
-    {
-        contentImage : "/image/sanzaiFesContents/tonjiru.png",
-        contentTitle : "ふるまい（豚汁）",
-    },
-    {
-        contentImage : "/image/sanzaiFesContents/manju.png",
-        contentTitle : "ふるまい（まんじゅう）",
-    },
-    {
-        contentImage : "/image/sanzaiFesContents/sengu.png",
-        contentTitle : "せんぐまき",
-    },
-    {
-        contentImage : "/image/sanzaiFesContents/bando.png",
-        contentTitle : "バンド演奏"
-    },
-    {
-        contentImage : "/image/sanzaiFesContents/suisougaku.png",
-        contentTitle : "吹奏楽部演奏"
-    },
-    {
-        contentImage : "/image/sanzaiFesContents/taiko.png",
-        contentTitle : "和太鼓"
-    },
-    {
-        contentImage : "/image/sanzaiFesContents/fuladance.png",
-        contentTitle : "フラダンス"
-    },
-    {
-        contentImage : "/image/sanzaiFesContents/yakisoba.png",
-        contentTitle : "出店（焼きそば)"
-    },
-    {
-        contentImage : "/image/sanzaiFesContents/jidori.png",
-        contentTitle : "出店（焼き鳥)"
-    },
-    {
-        contentImage : "/image/sanzaiFesContents/burger.png",
-        contentTitle : "出店（バーガー)"
-    },
-    {
-        contentImage : "/image/sanzaiFesContents/softcream.png",
-        contentTitle : "出店（ソフトクリーム)"
-    }
-];
-
 const garallyPhotos:string[] = [
     "",
     "",
@@ -121,10 +52,10 @@ export default function Sanzai(){
     const [sanzaiFesContents, setSanzaiFesContents] = useState<FesContents[]>();
     useEffect(() => {
         const fetchSanzaiFesData = async () => {
-        const getSanzaiFesInfo = await getDocs(collection(db,"sanzai_fes_info"));
+        const getSanzaiFesInfo = await getDoc(doc(db,"sanzai_fes_info",`heso_fes_info${thisYear}`));
         const getSanzaiFesContents = await getDocs(collection(db,`sanzai_fes_contents${thisYear}`));
         const sanzaiFesContentsData = getSanzaiFesContents.docs.map((doc) => doc.data()) as FesContents[];
-        const sanzaiFesInfoData = getSanzaiFesInfo.docs[0].data() as FesBaseInfo;
+        const sanzaiFesInfoData = getSanzaiFesInfo.data() as FesBaseInfo;
         setSanzaiFesInfo(sanzaiFesInfoData);
         setSanzaiFesContents(sanzaiFesContentsData);
         }
@@ -140,11 +71,11 @@ export default function Sanzai(){
         introText = sanzaiFesInfo.intro_text;
         mapLink = sanzaiFesInfo.place_map_link;
     }
-    
+
+    let fesContents: FesContents[] = [];
     if(sanzaiFesContents !== undefined){
-        fesContents.forEach((content,index) => {
-        // content.contentImage = sanzaiFesContents[index].image;
-        // content.contentTitle = sanzaiFesContents[index].name;
+        sanzaiFesContents.map((sanzaiFesContent) => {
+            fesContents.push(sanzaiFesContent);
         });
     }
 
@@ -152,7 +83,7 @@ export default function Sanzai(){
         <>
             <FestivalDetail 
                 introText={introText} 
-                festivalContents={fesContents}
+                fesContents={fesContents}
                 importantInfo={importantInfo} 
                 garallyPhotos={garallyPhotos} 
                 mapLink={mapLink}

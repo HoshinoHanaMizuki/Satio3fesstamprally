@@ -31,7 +31,7 @@ export default function PhoneNavbar() {
                         <a href="/festivalDetailPages/Sanzai" className="text-lg text-gray-800 hover:text-gray-600">三財へそ祭り</a>
                         <a href="/festivalDetailPages/Tonokoori" className="text-lg text-gray-800 hover:text-gray-600">都於郡城址祭り</a>
                         <a href="/festivalDetailPages/Minou" className="text-lg text-gray-800 hover:text-gray-600">三納ちびっ子相撲大会</a>
-                        <a href="/PageEditing" className="text-lg text-gray-800 hover:text-gray-600">ページの編集</a>
+                        <a href="/pageEditing" className="text-lg text-gray-800 hover:text-gray-600">ページの編集</a>
                         <button
                             onClick={toggleMenu}
                             className="mt-4 text-red-500 hover:text-red-700"

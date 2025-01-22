@@ -5,7 +5,7 @@ import { FestivalDetails } from "@/app/types/type";
 import NavBar from "./Navbar/Navbar";
 import PhoneNavbar from "./Navbar/SmartPhone";
 
-export default function FestivalDetail({introText,festivalContents,importantInfo,garallyPhotos,mapLink,anotherInfos}:FestivalDetails){
+export default function FestivalDetail({introText,fesContents,importantInfo,garallyPhotos,mapLink,anotherInfos}:FestivalDetails){
 
     return(
         <>
@@ -27,19 +27,19 @@ export default function FestivalDetail({introText,festivalContents,importantInfo
                 {/* 開催日程・主催・会場 */}
                 <div className="importantInfo border-4  border-black text-center m-2 mb-5">
                     <div className="text-sm md:text-xl p-1">開催日時：{importantInfo.date}</div>
-                    <div className="text-sm md:text-xl p-1">主催：{importantInfo.Sponsors.MainSponsor}</div>
-                    {importantInfo.Sponsors.isSubSponsored && (
-                        <div className="text-sm md:text-xl p-1">後援：{importantInfo.Sponsors.SubSponsor}</div>
+                    <div className="text-sm md:text-xl p-1">主催：{importantInfo.sponsors.MainSponsor}</div>
+                    {importantInfo.sponsors.isSubSponsored && (
+                        <div className="text-sm md:text-xl p-1">後援：{importantInfo.sponsors.SubSponsor}</div>
                     )}
                     <div className="text-sm md:text-xl p-1">開催場所：{importantInfo.place}</div>
                 </div>
                 {/* 祭りのコンテンツ */}
                 <div className="sectionTitle text-center text-xl m-2">【祭りのコンテンツ】</div>
                 <div className="festivalContentsContainer grid grid-cols-3 sm:grid-cols-5 mb-3 ">
-                {festivalContents.map((festivalContent, index) => (
+                {fesContents.map((fesContent, index) => (
                     <div key={index} className="fesImage p-1">
-                        <img src={festivalContent.contentImage} alt="" className="w-full h-auto" loading="lazy" />
-                        <p className="fesTitle text-sm text-center">{festivalContent.contentTitle}</p>
+                        <img src={fesContent.img} alt="" className="w-full h-auto" loading="lazy" />
+                        <p className="fesTitle text-sm text-center">{fesContent.name}</p>
                     </div>
                 ))}
                 </div>

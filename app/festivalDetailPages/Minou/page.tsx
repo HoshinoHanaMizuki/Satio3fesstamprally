@@ -1,31 +1,26 @@
 "use client";
 import FestivalDetail from "@/app/features/common/festivalDetailTemplate";
 import Navbar from "@/app/features/common/Navbar/SmartPhone";
-import { FestivalContents, ImportantInfo ,Sponsors,FesBaseInfo,FesContents} from "@/app/types/type";
+import { ImportantInfo ,Sponsors,FesBaseInfo,FesContents} from "@/app/types/type";
 import { db } from "@/app/firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { thisYear } from "@/app/features/common/commonValue";
 
 let introText ="";
 let mapLink = "";
 const sponsors : Sponsors = {
-    MainSponsor :  "ちびっ子相撲大会実行委員会",
+    MainSponsor :  "",
     SubSponsor : "",
     isSubSponsored : false
 };
-const importantInfo:ImportantInfo = {
-    date : "2024-12-08",
-    Sponsors : sponsors,
-    place : "矢久度神社"
-}
+const importantInfo:ImportantInfo ={
+    date : "",
+    sponsors : sponsors,
+    place : ""
 
-const fesContents:FestivalContents[] = [
-    {
-        contentImage : "",
-        contentTitle : "CommingSoon・・",
-    },
-];
+};
+ 
 
 const garallyPhotos:string[] = [
     "",
@@ -57,10 +52,10 @@ export default function Minou(){
     const [minouFesContents, setMinouFesContents] = useState<FesContents[]>();
     useEffect(() => {
         const fetchMinouFesData = async () => {
-        const getMinouFesInfo = await getDocs(collection(db,"minou_fes_info"));
+        const getMinouFesInfo = await getDoc(doc(db,"minou_fes_info",`chibi_fes_info${thisYear}`));
         const getMinouFesContents = await getDocs(collection(db,`minou_fes_contents${thisYear}`));
         const minouFesContentsData = getMinouFesContents.docs.map((doc) => doc.data()) as FesContents[];
-        const minouFesInfoData = getMinouFesInfo.docs[0].data() as FesBaseInfo;
+        const minouFesInfoData = getMinouFesInfo.data() as FesBaseInfo;
         setMinouFesInfo(minouFesInfoData);
         setMinouFesContents(minouFesContentsData);
         }
@@ -76,11 +71,10 @@ export default function Minou(){
         introText = minouFesInfo.intro_text;
         mapLink = minouFesInfo.place_map_link;
     }
-    
+    let fesContents: FesContents[] = [];
     if(minouFesContents !== undefined){
-        fesContents.forEach((content,index) => {
-        // content.contentImage = minouFesContents[index].image;
-        content.contentTitle = minouFesContents[index].name;
+        minouFesContents.map((minouFesContent) => {
+            fesContents.push(minouFesContent);
         });
     }
     return(
@@ -88,7 +82,7 @@ export default function Minou(){
             <Navbar />
             <FestivalDetail 
                 introText={introText} 
-                festivalContents={fesContents}
+                fesContents={fesContents}
                 importantInfo={importantInfo} 
                 garallyPhotos={garallyPhotos} 
                 mapLink={mapLink}

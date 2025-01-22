@@ -2,8 +2,8 @@
 import FestivalDetail from "@/app/features/common/festivalDetailTemplate";
 import Navbar from "@/app/features/common/Navbar/SmartPhone";
 import { db } from "@/app/firebase";
-import { FestivalContents, ImportantInfo ,Sponsors ,FesBaseInfo,FesContents} from "@/app/types/type";
-import { collection, getDocs } from "firebase/firestore";
+import {ImportantInfo ,Sponsors ,FesBaseInfo,FesContents} from "@/app/types/type";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { thisYear } from "@/app/features/common/commonValue";
@@ -15,29 +15,12 @@ let sponsors: Sponsors = {
 };
 let importantInfo: ImportantInfo = {
   date: "",
-  Sponsors: sponsors,
+  sponsors: sponsors,
   place: "",
 };
 
 
-const fesContents: FestivalContents[] = [
-  {
-    contentImage: "/image/tonokooriFesContents/gacha.png",
-    contentTitle: "抽選会",
-  },
-  {
-    contentImage: "/image/tonokooriFesContents/struckout.png",
-    contentTitle: "ストラックアウト",
-  },
-  {
-    contentImage: "/image/tonokooriFesContents/wanage.png",
-    contentTitle: "輪投げ",
-  },
-  {
-    contentImage: "/image/sanzaiFesContents/sengu.png",
-    contentTitle: "せんぐまき",
-  },
-];
+let fesContents: FesContents[] = [];
 let introText = "";
 let mapLink = "";
 const flyerImage = "/image/tonokooriFesContents/joushi2024.jpg";
@@ -54,10 +37,10 @@ export default function Tonokoori() {
   const [tonoFesContents, setTonoFesContents] = useState<FesContents[]>();
   useEffect(() => {
     const fetchTonoFesData = async () => {
-      const getTonoFesInfo = await getDocs(collection(db,"tono_fes_info"));
+      const getTonoFesInfo = await getDoc(doc(db,"tono_fes_info",`joushi_fes_info${thisYear}`));
       const getTonoFesContents = await getDocs(collection(db,`tono_fes_contents${thisYear}`));
       const tonoFesContentsData = getTonoFesContents.docs.map((doc) => doc.data()) as FesContents[];
-      const tonoFesInfoData = getTonoFesInfo.docs[1].data() as FesBaseInfo;
+      const tonoFesInfoData = getTonoFesInfo.data() as FesBaseInfo;
       setTonoFesInfo(tonoFesInfoData);
       setTonoFesContents(tonoFesContentsData);
     }
@@ -75,18 +58,19 @@ export default function Tonokoori() {
     mapLink = tonoFesInfo.place_map_link;
   }
   
+  //tonoFesContentsが取得できたらfesContentsに代入
+  let fesContents: FesContents[] = [];
   if(tonoFesContents !== undefined){
-    fesContents.forEach((content,index) => {
-      // content.contentImage = tonoFesContents[index].image;
-      content.contentTitle = tonoFesContents[index].name;
-    });
+      tonoFesContents.map((tonoFesContent) => {
+        fesContents.push(tonoFesContent);
+      });
   }
   return (
     <>
       <Navbar />
       <FestivalDetail
         introText={introText}
-        festivalContents={fesContents}
+        fesContents={fesContents}
         importantInfo={importantInfo}
         garallyPhotos={garallyPhotos}
         mapLink={mapLink}

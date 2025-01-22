@@ -12,22 +12,18 @@ export type Sponsors = {
 }
 export type ImportantInfo = {
     date:string;
-    Sponsors:Sponsors;
+    sponsors:Sponsors;
     place:string;
 }
 export type FestivalDetails ={
     introText : string;
-    festivalContents : FestivalContents[];
+    fesContents : FesContents[];
     importantInfo: ImportantInfo;
     garallyPhotos: string[];
     mapLink:string;
     anotherInfos:string[];
 }
 
-export type FestivalContents = {
-    contentImage : string;
-    contentTitle : string;
-}
 
 export type participationAwardsPartner = {
     name:string;
@@ -53,7 +49,7 @@ export interface SubmitResult{
 }
 export interface FesContents{
     id:string,
-    image:string,
+    img:string,
     name:string
 }
 export interface FesBaseInfo{

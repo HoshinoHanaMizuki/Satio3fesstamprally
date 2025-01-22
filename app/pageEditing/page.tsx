@@ -9,12 +9,6 @@ import PhoneNavbar from "../features/common/Navbar/SmartPhone";
 import { SponsorsData,SubmitResult,FesContents,FesBaseInfo } from "../types/type";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged,signOut, User} from "firebase/auth";
 
-const today = new Date();
-const startDate = new Date('2025-10-08');
-const endDate = new Date('2026-01-01');
-const isHold :boolean = today >= startDate && today <= endDate;
-console.log(isHold);
-
 // const router = useRouter();
 //編集できる情報は、メインバナー画像・期間中か終了時かのFlag・協賛先情報・お祭り紹介テキスト
 // 開催日時、主催、講演、開催場所、祭りのコンテンツ、アクセス情報、抽選会の応募条件や結果発表方法当選発表リンク
@@ -414,22 +408,22 @@ export default function PageEditing() {
                                 <div className="detailPart">
                                     <div className="sanzaiFesInfo">
                                         <div className="sanzaiFesDate">
-                                            <input type="text" defaultValue={editSanzaiFesInfo?.date} placeholder={currentSanzaiFesInfo?.date} onChange={(e) => setEditSanzaiFesInfo(prev => ({ ...prev, date: e.target.value } as FesBaseInfo))} />
+                                            <input type="text" defaultValue={editSanzaiFesInfo?.date} placeholder="開催日時" onChange={(e) => setEditSanzaiFesInfo(prev => ({ ...prev, date: e.target.value } as FesBaseInfo))} />
                                         </div>
                                         <div className="sanzaiFesIntroText">
-                                            <input type="text" defaultValue={editSanzaiFesInfo?.intro_text} placeholder={currentSanzaiFesInfo?.intro_text} onChange={(e) => setEditSanzaiFesInfo(prev => ({ ...prev, intro_text: e.target.value } as FesBaseInfo))} />
+                                            <input type="text" defaultValue={editSanzaiFesInfo?.intro_text} placeholder="へそ祭りの紹介文" onChange={(e) => setEditSanzaiFesInfo(prev => ({ ...prev, intro_text: e.target.value } as FesBaseInfo))} />
                                         </div>
                                         <div className="sanzaiFesManagement">
-                                            <input type="text" defaultValue={editSanzaiFesInfo?.management} placeholder={currentSanzaiFesInfo?.management} onChange={(e) => setEditSanzaiFesInfo(prev => ({ ...prev, management: e.target.value } as FesBaseInfo))} />
+                                            <input type="text" defaultValue={editSanzaiFesInfo?.management} placeholder="主催" onChange={(e) => setEditSanzaiFesInfo(prev => ({ ...prev, management: e.target.value } as FesBaseInfo))} />
                                         </div>
                                         <div className="sanzaiFesPlace">
-                                            <input type="text" defaultValue={editSanzaiFesInfo?.place} placeholder={currentSanzaiFesInfo?.place} onChange={(e) => setEditSanzaiFesInfo(prev => ({ ...prev, place: e.target.value } as FesBaseInfo))} />
+                                            <input type="text" defaultValue={editSanzaiFesInfo?.place} placeholder="開催場所" onChange={(e) => setEditSanzaiFesInfo(prev => ({ ...prev, place: e.target.value } as FesBaseInfo))} />
                                         </div>
                                         <div className="sanzaiFesPlaceMapLink">
-                                            <input type="text" defaultValue={editSanzaiFesInfo?.place_map_link} placeholder={currentSanzaiFesInfo?.place_map_link} onChange={(e) => setEditSanzaiFesInfo(prev => ({ ...prev, place_map_link: e.target.value } as FesBaseInfo))} />
+                                            <input type="text" defaultValue={editSanzaiFesInfo?.place_map_link} placeholder="開催場所GoogleMapリンク" onChange={(e) => setEditSanzaiFesInfo(prev => ({ ...prev, place_map_link: e.target.value } as FesBaseInfo))} />
                                         </div>
                                         <div className="sponsor">
-                                            <input type="text" defaultValue={editSanzaiFesInfo?.sponsor} placeholder={currentSanzaiFesInfo?.sponsor} onChange={(e) => setEditSanzaiFesInfo(prev => ({ ...prev, sponsor: e.target.value } as FesBaseInfo))} />
+                                            <input type="text" defaultValue={editSanzaiFesInfo?.sponsor} placeholder="後援" onChange={(e) => setEditSanzaiFesInfo(prev => ({ ...prev, sponsor: e.target.value } as FesBaseInfo))} />
                                         </div>
                                     </div>
                                     <div className="sanzaiFesContents">
@@ -449,7 +443,7 @@ export default function PageEditing() {
                                                     <input type="file" accept="image/*" onChange={(e) => setAddSanzaiFesContents(prev => ({ ...prev, image: e.target.value } as FesContents))} />
                                                 </div> */}
                                                 <div className="sanzaiFesContentsName">
-                                                    <input type="text" defaultValue={addSanzaiFesContents?.name} placeholder="コンテンツ名" onChange={(e) => setAddSanzaiFesContents(prev => ({ ...prev,img:"", name: e.target.value } as FesContents))} />
+                                                    <input type="text" defaultValue={addSanzaiFesContents?.name} placeholder="コンテンツ名" onChange={(e) => setAddSanzaiFesContents(prev => ({ ...prev,img:"/image/sanzaiFesContents/chopper.png", name: e.target.value } as FesContents))} />
                                                 </div>
                                             </div>
                                         )}
@@ -499,22 +493,22 @@ export default function PageEditing() {
                                 <div className="detailPart">
                                 <div className="tonoFesInfo">
                                     <div className="tonoFesDate">
-                                        <input type="text" defaultValue ={editTonoFesInfo?.date} placeholder={currentTonoFesInfo?.date} onChange={(e) => setEditTonoFesInfo(prev => ({ ...prev, date: e.target.value } as FesBaseInfo))} />
+                                        <input type="text" defaultValue ={editTonoFesInfo?.date} placeholder="開催日時" onChange={(e) => setEditTonoFesInfo(prev => ({ ...prev, date: e.target.value } as FesBaseInfo))} />
                                     </div>
                                     <div className="tonoFesIntroText">
-                                        <input type="text" defaultValue ={editTonoFesInfo?.intro_text} placeholder={currentTonoFesInfo?.intro_text} onChange={(e) => setEditTonoFesInfo(prev => ({ ...prev, intro_text: e.target.value } as FesBaseInfo))} />
+                                        <input type="text" defaultValue ={editTonoFesInfo?.intro_text} placeholder="城址祭りの紹介文" onChange={(e) => setEditTonoFesInfo(prev => ({ ...prev, intro_text: e.target.value } as FesBaseInfo))} />
                                     </div>
                                     <div className="tonoFesManagement">
-                                        <input type="text" defaultValue ={editTonoFesInfo?.management} placeholder={currentTonoFesInfo?.management} onChange={(e) => setEditTonoFesInfo(prev => ({ ...prev, management: e.target.value } as FesBaseInfo))} />
+                                        <input type="text" defaultValue ={editTonoFesInfo?.management} placeholder="主催" onChange={(e) => setEditTonoFesInfo(prev => ({ ...prev, management: e.target.value } as FesBaseInfo))} />
                                     </div>
                                     <div className="tonoFesPlace">
-                                        <input type="text" defaultValue ={editTonoFesInfo?.place} placeholder={currentTonoFesInfo?.place} onChange={(e) => setEditTonoFesInfo(prev => ({ ...prev, place: e.target.value } as FesBaseInfo))} />
+                                        <input type="text" defaultValue ={editTonoFesInfo?.place} placeholder="開催場所" onChange={(e) => setEditTonoFesInfo(prev => ({ ...prev, place: e.target.value } as FesBaseInfo))} />
                                     </div>
                                     <div className="tonoFesPlaceMapLink">
-                                        <input type="text" defaultValue ={editTonoFesInfo?.place_map_link} placeholder={currentTonoFesInfo?.place_map_link} onChange={(e) => setEditTonoFesInfo(prev => ({ ...prev, place_map_link: e.target.value } as FesBaseInfo))} />
+                                        <input type="text" defaultValue ={editTonoFesInfo?.place_map_link} placeholder="開催場所GoogleMapリンク" onChange={(e) => setEditTonoFesInfo(prev => ({ ...prev, place_map_link: e.target.value } as FesBaseInfo))} />
                                     </div>
                                     <div className="sponsor">
-                                        <input type="text" defaultValue ={editTonoFesInfo?.sponsor} placeholder={currentTonoFesInfo?.sponsor} onChange={(e) => setEditTonoFesInfo(prev => ({ ...prev, sponsor: e.target.value } as FesBaseInfo))} />
+                                        <input type="text" defaultValue ={editTonoFesInfo?.sponsor} placeholder="後援" onChange={(e) => setEditTonoFesInfo(prev => ({ ...prev, sponsor: e.target.value } as FesBaseInfo))} />
                                     </div>
                                 </div>
                                 <div className="tonoFesContents">
@@ -534,7 +528,7 @@ export default function PageEditing() {
                                                 <input type="file" accept="image/*" onChange={(e) => setAddTonoFesContents(prev => ({ ...prev, image: e.target.value } as FesContents))} />
                                             </div> */}
                                             <div className="tonoFesContentsName">
-                                                <input type="text" defaultValue={addTonoFesContents?.name} placeholder="コンテンツ名" onChange={(e) => setAddTonoFesContents(prev => ({ ...prev,img:"" , name: e.target.value } as FesContents))} />
+                                                <input type="text" defaultValue={addTonoFesContents?.name} placeholder="コンテンツ名" onChange={(e) => setAddTonoFesContents(prev => ({ ...prev,img:"/image/sanzaiFesContents/chopper.png" , name: e.target.value } as FesContents))} />
                                             </div>
                                         </div>
                                     )}
@@ -584,22 +578,22 @@ export default function PageEditing() {
                                 <div className="detailPart">
                                 <div className="minouFesInfo">
                                     <div className="minouFesDate">
-                                        <input type="text" defaultValue ={editMinouFesInfo?.date} placeholder={currentMinouFesInfo?.date} onChange={(e) => setEditMinouFesInfo(prev => ({ ...prev, date: e.target.value } as FesBaseInfo))} />
+                                        <input type="text" defaultValue ={editMinouFesInfo?.date} placeholder="開催日時" onChange={(e) => setEditMinouFesInfo(prev => ({ ...prev, date: e.target.value } as FesBaseInfo))} />
                                     </div>
                                     <div className="minouFesIntroText">
-                                        <input type="text" defaultValue ={editMinouFesInfo?.intro_text} placeholder={currentMinouFesInfo?.intro_text} onChange={(e) => setEditMinouFesInfo(prev => ({ ...prev, intro_text: e.target.value } as FesBaseInfo))} />
+                                        <input type="text" defaultValue ={editMinouFesInfo?.intro_text} placeholder="城址祭りの紹介文" onChange={(e) => setEditMinouFesInfo(prev => ({ ...prev, intro_text: e.target.value } as FesBaseInfo))} />
                                     </div>
                                     <div className="minouFesManagement">
-                                        <input type="text" defaultValue ={editMinouFesInfo?.management} placeholder={currentMinouFesInfo?.management} onChange={(e) => setEditMinouFesInfo(prev => ({ ...prev, management: e.target.value } as FesBaseInfo))} />
+                                        <input type="text" defaultValue ={editMinouFesInfo?.management} placeholder="主催" onChange={(e) => setEditMinouFesInfo(prev => ({ ...prev, management: e.target.value } as FesBaseInfo))} />
                                     </div>
                                     <div className="minouFesPlace">
-                                        <input type="text" defaultValue ={editMinouFesInfo?.place} placeholder={currentMinouFesInfo?.place} onChange={(e) => setEditMinouFesInfo(prev => ({ ...prev, place: e.target.value } as FesBaseInfo))} />
+                                        <input type="text" defaultValue ={editMinouFesInfo?.place} placeholder="開催場所" onChange={(e) => setEditMinouFesInfo(prev => ({ ...prev, place: e.target.value } as FesBaseInfo))} />
                                     </div>
                                     <div className="minouFesPlaceMapLink">
-                                        <input type="text" defaultValue ={editMinouFesInfo?.place_map_link} placeholder={currentMinouFesInfo?.place_map_link} onChange={(e) => setEditMinouFesInfo(prev => ({ ...prev, place_map_link: e.target.value } as FesBaseInfo))} />
+                                        <input type="text" defaultValue ={editMinouFesInfo?.place_map_link} placeholder="開催場所GoogleMapリンク" onChange={(e) => setEditMinouFesInfo(prev => ({ ...prev, place_map_link: e.target.value } as FesBaseInfo))} />
                                     </div>
                                     <div className="sponsor">
-                                        <input type="text" defaultValue ={editMinouFesInfo?.sponsor} placeholder={currentMinouFesInfo?.sponsor} onChange={(e) => setEditMinouFesInfo(prev => ({ ...prev, sponsor: e.target.value } as FesBaseInfo))} />
+                                        <input type="text" defaultValue ={editMinouFesInfo?.sponsor} placeholder="後援" onChange={(e) => setEditMinouFesInfo(prev => ({ ...prev, sponsor: e.target.value } as FesBaseInfo))} />
                                     </div>
                                 </div>
                                 <div className="minouFesContents">
@@ -619,7 +613,7 @@ export default function PageEditing() {
                                                 <input type="file" accept="image/*" onChange={(e) => setAddMinouFesContents(prev => ({ ...prev, image: e.target.value } as FesContents))} />
                                             </div> */}
                                             <div className="minouFesContentsName">
-                                                <input type="text" defaultValue={addMinouFesContents?.name} placeholder="コンテンツ名" onChange={(e) => setAddMinouFesContents(prev => ({ ...prev, name: e.target.value } as FesContents))} />
+                                                <input type="text" defaultValue={addMinouFesContents?.name} placeholder="コンテンツ名" onChange={(e) => setAddMinouFesContents(prev => ({ ...prev,img:"/image/sanzaiFesContents/chopper.png", name: e.target.value } as FesContents))} />
                                             </div>
                                         </div>
                                     )}
