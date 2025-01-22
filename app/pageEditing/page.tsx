@@ -55,7 +55,7 @@ console.log(isHold);
 // const router = useRouter();
 //編集できる情報は、メインバナー画像・期間中か終了時かのFlag・協賛先情報・お祭り紹介テキスト
 // 開催日時、主催、講演、開催場所、祭りのコンテンツ、アクセス情報、抽選会の応募条件や結果発表方法当選発表リンク
-export default function pageEditing() {
+export default function PageEditing() {
     // データベースからデータを取得する
     const [currentSponsors, setCurrentSponsors] = useState<SponsorsData[]>();
     const [addSponsor, setAddSponsor] = useState<SponsorsData>();
