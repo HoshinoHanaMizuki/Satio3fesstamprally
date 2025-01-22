@@ -39,13 +39,8 @@ export type participationAwardsPartner = {
 
 
 //editPage
-export interface Mode{
-    mode:boolean
-}
-export interface CopyRight{
-    copyRight:string
-}
 export interface SponsorsData{
+    id:string
     image:string,
     link:string,
     name:string,
@@ -57,6 +52,7 @@ export interface SubmitResult{
     sub_perfect:string
 }
 export interface FesContents{
+    id:string,
     image:string,
     name:string
 }

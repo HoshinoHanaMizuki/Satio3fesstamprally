@@ -1,10 +1,14 @@
+"use client"
 import Link from "next/link";
 import Footer from "./features/common/footer";
 import Header from "./features/common/header";
-import { Festival } from "./types/type";
+import { Festival, SponsorsData } from "./types/type";
 import Swiper from "./features/swiper/Swiper";
 import NavBar from "./features/common/Navbar/Navbar";
 import PhoneNavbar from "./features/common/Navbar/SmartPhone";
+import { useEffect, useState } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "./firebase";
 
 const festivalInfoArray:Festival[] = [
   {fesName:"三財へそまつり",fesLink:"Sanzai",fesImage:"/image/sanzaiThumnail.png",releaseDate:'2024-10-27',isLocked:false},
@@ -15,53 +19,24 @@ const festivalInfoArray:Festival[] = [
 const stamprallyIntroText:string[] = ["三財へそ祭り・都於郡城址祭り・三納ちびっ子相撲大会","３つのお祭りを回って","スタンプをゲットしよう！"];
 const bannerImage:string = "/image/charactors.png";
 
-
-const parners_num : number = 33;
-let partnersImages:string[] = [];
-for(let i = 0; i < parners_num; i++){
-  partnersImages[i] = `/image/partners/partner_${i+1}.jpg`;
-}
-
-const partnersLink : string[] = [
-  "https://miyazaki.mypl.net/shop/00000343796/",
-  "https://www.hotpepper.jp/strJ003581722/",
-  "https://www.instagram.com/kanoa_1023/?igsh=MWFiYW9sNmVtYmJucg%3D%3D",
-  "https://www.drk.co.jp",
-  "https://www.nantokasuruhoken.com/plusone/",
-  "https://s-suppon.com",
-  "https://maps.app.goo.gl/co1Q9kWzrbzrn5u78",
-  "https://g.co/kgs/VYLjHYG",
-  "https://g.co/kgs/SjTjQ6h",
-  "https://g.co/kgs/id3YgkM",
-  "https://x.com/dagotei_izakaya",
-  "https://kimura-k.info",
-  "http://www.u-irifune.com",
-  "https://www.kagurashuzo.co.jp",
-  "https://www.city.saito.lg.jp/kurashi/post_881.html",
-  "https://g.co/kgs/hHUznik",
-  "https://www.tonokurimansyo.com/",
-  "https://g.co/kgs/7YcGW5k",
-  "https://www.instagram.com/lifelong_burger?igsh=NHZxdnJsZ3Nvd2Fv",
-  "https://g.co/kgs/zSwmMWT",
-  "https://www.fd-miyazaki.com/saito/edocho",
-  "https://orin.owst.jp",
-  "https://g.co/kgs/nnwGyfF",
-  "https://www.city.saito.lg.jp/kurashi/0118_1703310000000004.html",
-  "https://corporation-create.com/",
-  "http://daiku510.com/",
-  "https://www.saito-kanko.jp/news-cate/2024sanzaihesofes/",
-  "https://map.yahoo.co.jp/v2/place/oeN96H6UtKk",
-  "https://star-fruits-company.39lively.com/",
-  "https://www.instagram.com/kijyori_na/",
-  "https://ja.wikipedia.org/wiki/%E5%8E%9F%E3%83%9E%E3%83%AB%E3%83%86%E3%82%A3%E3%83%8E",
-  "https://dic.pixiv.net/a/%E3%82%B7%E3%83%A3%E3%83%AA%E3%82%A2%E3%83%BB%E3%83%96%E3%83%AB",
-  "https://www.shiibakanko.jp/"
-]
-
-
-
-
 export default function Home() {
+  const [sponsorsData,setSponsorsData] = useState<SponsorsData[]>([]);
+  useEffect(()=>{
+    //sponsorデータを取得
+    const fetchSponsor = async () => {
+      const getSponsors = await getDocs(collection(db,"sponsors"));
+      const sponsorsData = getSponsors.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data()
+      })) as SponsorsData[];
+      const sortedSData = sponsorsData.sort((a,b)=>a.sort_id - b.sort_id);
+      setSponsorsData(sortedSData);
+    };
+    fetchSponsor(); 
+  },[]);
+  
+  const partnersImages = sponsorsData.map((sponsor)=>sponsor.image);
+  const partnersLink = sponsorsData.map((sponsor)=>sponsor.link);
 
   return(
     <>
